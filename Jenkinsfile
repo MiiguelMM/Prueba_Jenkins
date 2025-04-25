@@ -13,30 +13,31 @@ pipeline {
     }
 
     stages {
-        // stage('Build') {
-        //     steps {
-        //         // echo 'Compilando proyecto...'
-        //         // sh 'mvn clean install'
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                echo 'Compilando proyecto...'
+                sh 'mvn clean install'
+            }
+        }
 
         stage('Tests') {
             steps {
                 echo 'Ejecutando tests...'
-                //sh 'mvn test'
+                sh 'mvn test'
             }
         }
 
         stage('Empaquetar') {
             steps {
                 echo 'Empaquetando...'
-                //sh 'mvn package -DskipTests'
+                sh 'mvn package -DskipTests'
             }
         }
 
         stage('Análisis de Código') {
             steps {
                 echo 'Analizando código con SonarQube...'
+                Comentado el análisis de código con SonarQube que usa Maven
                 withSonarQubeEnv('SonarQube') {
                     sh 'mvn sonar:sonar -Dsonar.host.url=http://172.18.0.6:9000 -Dsonar.login=admin -Dsonar.password=admin'
                 }
@@ -46,19 +47,19 @@ pipeline {
         stage('Publicar en Nexus') {
             steps {
                 echo 'Publicando artefactos en Nexus...'
-                // Comentado el comando de despliegue en Nexus que usa Maven
-                // withCredentials([usernamePassword(credentialsId: 'nexus-admin', 
-                //                                      usernameVariable: 'NEXUS_USER', 
-                //                                      passwordVariable: 'NEXUS_PASSWORD')]) {
-                //     sh '''
-                //         mvn deploy -DskipTests \
-                //         -DaltDeploymentRepository=nexus::default::http://172.18.0.3:8081/repository/maven-releases/ \
-                //         -DrepositoryId=nexus \
-                //         -Durl=http://172.18.0.3:8081/repository/maven-releases/ \
-                //         -Dusername=${NEXUS_USER} \
-                //         -Dpassword=${NEXUS_PASSWORD}
-                //     '''
-                // }
+                Comentado el comando de despliegue en Nexus que usa Maven
+                withCredentials([usernamePassword(credentialsId: 'nexus-admin', 
+                                                     usernameVariable: 'NEXUS_USER', 
+                                                     passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh '''
+                        mvn deploy -DskipTests \
+                        -DaltDeploymentRepository=nexus::default::http://172.18.0.3:8081/repository/maven-releases/ \
+                        -DrepositoryId=nexus \
+                        -Durl=http://172.18.0.3:8081/repository/maven-releases/ \
+                        -Dusername=${NEXUS_USER} \
+                        -Dpassword=${NEXUS_PASSWORD}
+                    '''
+                }
             }
         }
 
