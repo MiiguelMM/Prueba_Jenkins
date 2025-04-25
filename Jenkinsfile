@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Compilando proyecto...'
+                // echo 'Compilando proyecto...'
                 sh 'mvn clean install'
             }
         }
