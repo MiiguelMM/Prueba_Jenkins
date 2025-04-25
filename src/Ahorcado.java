@@ -53,5 +53,9 @@ public class Ahorcado {
             System.out.println("Perdiste. La palabra era: " + palabra);
         }
         n.close();
+        System.out.println("aluflhf");
+        System.out.println("aluflhf");
+        System.out.println("aluflhf");
+        System.out.println("aluflhf");
     }
 }
