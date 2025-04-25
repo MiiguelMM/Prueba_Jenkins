@@ -6,6 +6,11 @@ pipeline {
         jdk 'Java 21'
     }
 
+    environment {
+        JAVA_HOME = "${tool 'Java 21'}"
+        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -69,7 +74,6 @@ pipeline {
             }
             steps {
                 echo 'Desplegando en ambiente de desarrollo...'
-                // Comandos para desplegar en servidor de desarrollo
             }
         }
 
@@ -79,7 +83,6 @@ pipeline {
             }
             steps {
                 echo 'Desplegando en producción...'
-                // Comandos para desplegar en servidor de producción
             }
         }
     }
@@ -87,11 +90,9 @@ pipeline {
     post {
         success {
             echo 'Pipeline ejecutado con éxito!'
-            // Enviar notificación de éxito
         }
         failure {
             echo 'El pipeline ha fallado!'
-            // Enviar notificación de fallo
         }
     }
 }
