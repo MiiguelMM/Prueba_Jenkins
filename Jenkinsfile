@@ -12,12 +12,12 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                // echo 'Compilando proyecto...'
-                //sh 'mvn clean install'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         // echo 'Compilando proyecto...'
+        //         //sh 'mvn clean install'
+        //     }
+        // }
 
         stage('Tests') {
             steps {
