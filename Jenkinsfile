@@ -10,21 +10,21 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Compilando proyecto...'
-                sh './mvnw clean install'
+                sh 'mvn clean install'
             }
         }
 
         stage('Tests') {
             steps {
                 echo 'Ejecutando tests...'
-                sh './mvnw test'
+                sh 'mvn test'
             }
         }
 
         stage('Empaquetar') {
             steps {
                 echo 'Empaquetando...'
-                sh './mvnw package -DskipTests'
+                sh 'mvn package -DskipTests'
             }
         }
 
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo 'Analizando código con SonarQube...'
                 withSonarQubeEnv('SonarQube') {
-                    sh './mvnw sonar:sonar -Dsonar.host.url=http://172.18.0.6:9000 -Dsonar.login=admin -Dsonar.password=admin'
+                    sh 'mvn sonar:sonar -Dsonar.host.url=http://172.18.0.6:9000 -Dsonar.login=admin -Dsonar.password=admin'
                 }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
                                                  usernameVariable: 'NEXUS_USER', 
                                                  passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh '''
-                        ./mvnw deploy -DskipTests \
+                        mvn deploy -DskipTests \
                         -DaltDeploymentRepository=nexus::default::http://172.18.0.3:8081/repository/maven-releases/ \
                         -DrepositoryId=nexus \
                         -Durl=http://172.18.0.3:8081/repository/maven-releases/ \
@@ -61,7 +61,7 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }   
+        }
 
         stage('Desplegar en Desarrollo') {
             when {
