@@ -37,10 +37,9 @@ pipeline {
         stage('Análisis de Código') {
             steps {
                 echo 'Analizando código con SonarQube...'
-                // Comentado el análisis de código con SonarQube que usa Maven
-                // withSonarQubeEnv('SonarQube') {
-                //     sh 'mvn sonar:sonar -Dsonar.host.url=http://172.18.0.6:9000 -Dsonar.login=admin -Dsonar.password=admin'
-                // }
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.host.url=http://172.18.0.6:9000 -Dsonar.login=admin -Dsonar.password=admin'
+                }
             }
         }
 
